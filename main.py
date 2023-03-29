@@ -8,8 +8,6 @@ import pyjokes
 import smtplib
 import wikipedia as googleScrap
 import requests
-from geopy.distance import great_circle
-from geopy.geocoders import Nominatim
 import geocoder
 from bs4 import BeautifulSoup
 engine= pyt.init('sapi5')
@@ -72,24 +70,6 @@ def My_location():
     country=geo1['country']
     print(f"sir ji you are now in {state} {country}")
     speak(f"sir ji you are now in {state} {country}")
-def googlemaps(place):
-    url_place="https://www.google.com/maps/place/"+str(place)
-    geolocator=Nominatim(user_agent="myGeocoder")
-    location=geolocator.geocode(place,addressdetails=True)
-    target_latlon=location.latitude,location.longitude
-    location=location.raw['address']
-    target={'city':location.get('city',''),
-            'state':location.get('state',''),
-            'country':location.get('country','')}
-    current_loca=geocoder.ip('me')
-    current_latlon=current_loca.latlng
-    distance=str(great_circle(current_latlon,target_latlon))
-    distance=str(distance.split(' ',1)[0])
-    distance=round(float(distance),2)
-    print(f"target location is {target}")
-    speak(f"target location is {target}")
-    print(f"Sir ji distance is {distance}")
-    speak(f"Sir ji distance is {distance}")
 def temp():
     print("Tell me the place-")
     speak("Tell me the place-")
@@ -211,15 +191,6 @@ if __name__ == '__main__':
                except:
                    print("Can you please say that again ?")
                    speak("Can you please say that again ?")
-           elif 'locate' in query:
-               try:
-                   print("okk sir tell me target location")
-                   speak("okk sir tell me target location")
-                   target=takecommands()
-                   googlemaps(target)
-               except:
-                   print("Sorry I couldn't sir ji!")
-                   speak("Sorry I couldn't sir ji!")
            elif "temperature" in query:
                try:
                    temp()
